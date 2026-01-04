@@ -1,7 +1,14 @@
 import json
+
 import folium
+
 import requests
+
 from geopy import distance
+
+from decouple import config
+
+API_KEY = config('apikey')
 
 
 def fetch_coordinates(apikey, address):
@@ -33,14 +40,10 @@ if __name__ == '__main__':
 
     coffe_shops = json.loads(file_contents)
 
-    apikey = '2f78ceff-5026-480d-a361-209bf66f3386'
-
     point = input('Где вы находитесь?   ')
-    coordinates = fetch_coordinates(apikey, point)
-    print('Ваши координаты: ', coordinates)
+    coordinates = fetch_coordinates(API_KEY, point)
 
     m = folium.Map(location=(coordinates), zoom_start=14)
-    m.save("index.html")
 
     coffe_shops_new = []
 
@@ -68,6 +71,6 @@ if __name__ == '__main__':
         tooltip="Click me!",
         popup="Timberline Lodge",
         icon=folium.Icon(color="green"),
-        ).add_to(m)
+                      ).add_to(m)
 
     m.save("index.html")
